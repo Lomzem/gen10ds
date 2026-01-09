@@ -54,8 +54,8 @@ A terminal-based interactive simulator that visualizes an 8-switch DIP switch ba
 │  SD Output:          75% Color Bars                              │
 │  Audio (AES-11):     Tone                                        │
 │                                                                   │
-│  Bitmask: 0b00001101  (0x0D)                                     │
-│             87654321                                              │
+│  Video Format Bitmask: 0b00000000  (0x00)                        │
+│                          87654321                                 │
 │                                                                   │
 ├──────────────────────── KEYBINDINGS ─────────────────────────────┤
 │  [1-8] Toggle Switch  |  [R] Reset  |  [Q] Quit                 │
@@ -96,7 +96,7 @@ LEFT (OFF):                    RIGHT (ON):
 - **Group 1/2 Headers:** `Color::Cyan`
 - **HD Format:** `Color::Green`
 - **SD Format:** `Color::Yellow`
-- **Bitmask:** `Color::White` for binary, `Color::Cyan` for hex
+- **Video Format Bitmask:** `Color::White` for binary, `Color::Cyan` for hex
 
 ### Label Colors
 - Switch numbers: `Color::White`
@@ -175,10 +175,15 @@ pub enum AudioOutput {
 - `DipSwitch::get_bitmask_binary() -> String` - Format as "0b00001101"
 - `DipSwitch::get_bitmask_hex() -> String` - Format as "0x0D"
 
-**Bitmask Format:**
-- Bit 0 (rightmost) = Switch 1
-- Bit 7 (leftmost) = Switch 8
-- Example: Switch 1=ON, 3=ON, 4=OFF → `0b00001101` = 0x0D
+**Video Format Bitmask:**
+- Only includes switches 4-8 (video format related switches)
+- Masked with `0b1111_1000` to exclude sync and SD output switches (1-3)
+- Bit 3 = Switch 4 (FORMAT)
+- Bit 4 = Switch 5 (HD FMT)
+- Bit 5 = Switch 6 (S1)
+- Bit 6 = Switch 7 (S2)
+- Bit 7 = Switch 8 (S3)
+- Example: Switches 4=ON, 5=ON → `0b00011000` = 0x18
 
 ---
 
@@ -567,7 +572,7 @@ impl App {
 
 5. **Circle Fill Effect:** Multiple overlapping circles with decreasing radius to simulate solid fill
 
-6. **Bitmask Format:** Bit 0 (rightmost) = Switch 1, Bit 7 (leftmost) = Switch 8
+6. **Video Format Bitmask:** Only shows switches 4-8 (masked with `0b1111_1000`) as these are the switches that determine video format. Switches 1-3 control sync and SD output, not the video format itself.
 
 7. **Edition 2024:** Cargo.toml specifies edition "2024" as per user preference
 
@@ -577,7 +582,7 @@ impl App {
 
 ### Default State (All Switches LEFT)
 ```
-Bitmask: 0b00000000 (0x00)
+Video Format Bitmask: 0b00000000 (0x00)
 Group 1 (Out 1-4):  SD - 525i (NTSC)
 Group 2 (Out 5-6):  SD - 525i (NTSC)
 SD Output:          Color Black
@@ -587,7 +592,7 @@ Audio (AES-11):     Silent
 ### Example: Mixed HD/SD with Color Bars
 ```
 Switches: 1=RIGHT, 2=LEFT, 3=RIGHT, 4-8=LEFT
-Bitmask: 0b00001101 (0x0D)
+Video Format Bitmask: 0b00000000 (0x00)
 Group 1 (Out 1-4):  HD - 1080i59.94 (1080psf29.97)
 Group 2 (Out 5-6):  SD - 525i (NTSC)
 SD Output:          75% Color Bars
@@ -597,7 +602,7 @@ Audio (AES-11):     Tone
 ### Example: Both Groups HD PAL 720p50
 ```
 Switches: 1=RIGHT, 2=RIGHT, 3=LEFT, 4=RIGHT, 5=RIGHT, 6-8=LEFT
-Bitmask: 0b00111100 (0x3C)
+Video Format Bitmask: 0b00011000 (0x18)
 Group 1 (Out 1-4):  HD - 720p50
 Group 2 (Out 5-6):  HD - 720p50
 SD Output:          Color Black

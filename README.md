@@ -76,7 +76,7 @@ The application is divided into three sections:
 - **Group 2 (Out 5-6)**: Format for outputs 5-6 (controlled by Switch 2)
 - **SD Output**: Color Black or 75% Color Bars (Switch 3)
 - **Audio (AES-11)**: Silent or Tone (Switch 3)
-- **Bitmask**: 8-bit representation where bit 0 = Switch 1, bit 7 = Switch 8
+- **Video Format Bitmask**: 8-bit representation of switches 4-8 (video format related switches only). Bits 0-2 are masked out as they control sync and SD output, not video format.
 
 #### 3. Keybindings Section
 - Quick reference for available controls
@@ -104,7 +104,7 @@ Group 1: SD - 525i (NTSC)
 Group 2: SD - 525i (NTSC)
 SD Output: Color Black
 Audio: Silent
-Bitmask: 0b00000000 (0x00)
+Video Format Bitmask: 0b00000000 (0x00)
 ```
 
 **Mixed HD/SD** (Switches 1=RIGHT, 3=RIGHT):
@@ -113,7 +113,7 @@ Group 1: HD - 1080i59.94 (1080psf29.97)
 Group 2: SD - 525i (NTSC)
 SD Output: 75% Color Bars
 Audio: Tone
-Bitmask: 0b00001101 (0x0D)
+Video Format Bitmask: 0b00000000 (0x00)
 ```
 
 **Full HD 720p50** (Switches 1=RIGHT, 2=RIGHT, 4=RIGHT, 5=RIGHT):
@@ -122,7 +122,7 @@ Group 1: HD - 720p50
 Group 2: HD - 720p50
 SD Output: Color Black
 Audio: Silent
-Bitmask: 0b00111100 (0x3C)
+Video Format Bitmask: 0b00011000 (0x18)
 ```
 
 ## Technical Details
