@@ -223,7 +223,7 @@ fn render_config(frame: &mut Frame, area: Rect, app: &App) {
         ]),
         Line::raw(""),
         Line::from(vec![
-            Span::raw("  Bitmask: "),
+            Span::raw("  Video Format Bitmask: "),
             Span::styled(
                 app.dipswitch.get_bitmask_binary(),
                 Style::default().fg(Color::White),
@@ -234,7 +234,7 @@ fn render_config(frame: &mut Frame, area: Rect, app: &App) {
                 Style::default().fg(Color::Cyan),
             ),
         ]),
-        Line::styled("             87654321", Style::default().fg(Color::DarkGray)),
+        Line::styled("                        87654321", Style::default().fg(Color::DarkGray)),
     ];
 
     frame.render_widget(Paragraph::new(lines), inner);

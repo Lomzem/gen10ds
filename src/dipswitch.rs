@@ -37,6 +37,7 @@ impl DipSwitch {
     }
 
     /// Calculate 8-bit bitmask where bit 0 = switch 1, bit 7 = switch 8
+    /// Masked with 0b1111_1000 to show only video format related switches (4-8)
     pub fn get_bitmask(&self) -> u8 {
         let mut mask = 0u8;
         for (i, &switch) in self.switches.iter().enumerate() {
@@ -44,7 +45,7 @@ impl DipSwitch {
                 mask |= 1 << i;
             }
         }
-        mask
+        mask & 0b1111_1000
     }
 
     /// Get bitmask as binary string (e.g., "0b00001101")
@@ -167,7 +168,7 @@ mod tests {
         let mut ds = DipSwitch::new();
         ds.toggle(0); // Toggle switch 1
         assert_eq!(ds.get(0), true);
-        assert_eq!(ds.get_bitmask(), 0b00000001);
+        assert_eq!(ds.get_bitmask(), 0b00000000); // Masked out (not part of video format)
         
         ds.toggle(0); // Toggle back
         assert_eq!(ds.get(0), false);
@@ -177,13 +178,27 @@ mod tests {
     #[test]
     fn test_bitmask() {
         let mut ds = DipSwitch::new();
-        ds.toggle(0); // Switch 1 = bit 0
-        ds.toggle(2); // Switch 3 = bit 2
-        ds.toggle(3); // Switch 4 = bit 3
+        ds.toggle(0); // Switch 1 = bit 0 (masked out)
+        ds.toggle(2); // Switch 3 = bit 2 (masked out)
+        ds.toggle(3); // Switch 4 = bit 3 (included)
         
-        assert_eq!(ds.get_bitmask(), 0b00001101);
-        assert_eq!(ds.get_bitmask_binary(), "0b00001101");
-        assert_eq!(ds.get_bitmask_hex(), "0x0D");
+        assert_eq!(ds.get_bitmask(), 0b00001000); // Only switch 4 counted
+        assert_eq!(ds.get_bitmask_binary(), "0b00001000");
+        assert_eq!(ds.get_bitmask_hex(), "0x08");
+    }
+
+    #[test]
+    fn test_bitmask_video_format_only() {
+        let mut ds = DipSwitch::new();
+        ds.toggle(3); // Switch 4 = bit 3 (FORMAT)
+        ds.toggle(4); // Switch 5 = bit 4 (HD FMT)
+        ds.toggle(5); // Switch 6 = bit 5 (S1)
+        ds.toggle(6); // Switch 7 = bit 6 (S2)
+        ds.toggle(7); // Switch 8 = bit 7 (S3)
+        
+        // All video format switches (4-8) = bits 3-7 = 0b11111000
+        assert_eq!(ds.get_bitmask(), 0b11111000);
+        assert_eq!(ds.get_bitmask_hex(), "0xF8");
     }
 
     #[test]
