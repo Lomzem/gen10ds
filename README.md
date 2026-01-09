@@ -4,7 +4,7 @@ A terminal-based interactive simulator for the [AJA Video GEN10](https://www.aja
 
 > **Note**: This entire project was vibe-coded by AI from start to finish, including architecture, implementation, testing, and documentation.
 
-![GEN10 DIP Switch Simulator](docs/screenshot.png)
+![Demo](./assets/demo.gif)
 
 ## Features
 
@@ -188,7 +188,7 @@ gen10ds/
 
 ## License
 
-[Your chosen license]
+MIT License - See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
