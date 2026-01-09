@@ -40,7 +40,7 @@ The simulator implements the complete [AJA GEN10](https://www.aja.com/products/g
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/gen10ds.git
+git clone https://github.com/Lomzem/gen10ds.git
 cd gen10ds
 
 # Build in release mode
