@@ -1,6 +1,6 @@
 # GEN10 DIP Switch Simulator
 
-A terminal-based interactive simulator for the [AJA Video GEN10](https://www.aja.com/products/gen10) video generator DIP switch configuration. Built with Rust and [Ratatui](https://ratatui.rs/).
+A terminal-based interactive simulator for the [AJA Video GEN10](https://www.aja.com/products/gen10) sync generator DIP switch configuration. Built with Rust and [Ratatui](https://ratatui.rs/).
 
 > **Note**: This entire project was vibe-coded by AI from start to finish, including architecture, implementation, testing, and documentation.
 
@@ -197,7 +197,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Acknowledgments
 
 - Built with [Ratatui](https://ratatui.rs/)
-- For the [AJA Video GEN10](https://www.aja.com/products/gen10) video generator
+- For the [AJA Sync GEN10](https://www.aja.com/products/gen10) video generator
 - Canvas rendering techniques from the Ratatui examples
 - **Completely vibe-coded by AI** - From initial planning through final implementation
 
